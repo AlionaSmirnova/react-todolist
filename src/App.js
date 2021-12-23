@@ -10,13 +10,12 @@ class App extends React.Component {
       tasks: [
         { id: 0, title: "Create todo-app", done: false, priority: "Low" },
         { id: 1, title: "Write some code", done: false, priority: "Medium" },
-        { id: 2, title: "Make a plan", done: false, priority: "Medium" },
+        { id: 2, title: "Make a plan", done: false, priority: "High" },
       ],
     };
     this.onChangeCheck = this.onChangeCheck.bind(this);
     this.removeTask = this.removeTask.bind(this);
     this.addTask = this.addTask.bind(this);
-    // this.inputChange = this.inputChange.bind(this);
   }
 
   removeTask(index) {
@@ -30,29 +29,15 @@ class App extends React.Component {
   addTask(task) {
     let newTasks = this.state.tasks;
     newTasks.push({
-      // id: tasks.length !== 0 ? task.length : 0,
-      id: newTasks.length + 1,
+      id: newTasks.length,
       title: task,
       done: false,
+      priority: ''
     });
     this.setState({
       tasks: newTasks,
     });
   }
-  // addTask(task) {
-  //   // this.setState(state => {
-  //     let { tasks } = this.state;
-  //     tasks.push({
-  //       // id: tasks.length !== 0 ? task.length : 0,
-  //       id: task.length+1,
-  //       title: task,
-  //       done: false
-  //     });
-  //     // this.setState({ tasks: tasks})
-  //     console.log(tasks);
-  //      return {...tasks, task};
-  // };
-
   onChangeCheck(id, isDone) {
     const newTasks = this.state.tasks.map((task) => {
       if (task.id === id) {
@@ -63,6 +48,7 @@ class App extends React.Component {
     this.setState({
       tasks: newTasks,
     });
+    console.log(newTasks);
   }
   render() {
     const { tasks } = this.state;
@@ -78,7 +64,7 @@ class App extends React.Component {
             removeTask={this.removeTask}
             task={task}
             key={task.id}
-            // priority={task.priority}
+            priority={task.priority}
             index={index}
           />
         ))}

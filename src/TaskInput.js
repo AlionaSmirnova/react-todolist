@@ -5,6 +5,7 @@ class TaskInput extends React.Component {
     super(props);
     this.state = {
       input: '',
+      value: ''
     };
     this.addTask = this.addTask.bind(this);
   }
@@ -23,18 +24,27 @@ class TaskInput extends React.Component {
       input: event.target.value,
     });
   }
+  changeSelect = (event) => {
+    this.setState({
+      value: event.target.value,
+    });
+  }
 
   render() {
     const { input } = this.state;
+    const { value } = this.state;
     return (
       <div className="task-input">
-        <input value={input} onChange={this.inputChange}></input>
-        {/* <select className="select">
+        <input type="text" value={input} onChange={this.inputChange} placeholder="Enter the task.."></input>
+        <select value={value} onChange={this.changeSelect} className="select">
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
-        </select> */}
+        </select> 
+         {/* <p> option: {value}
+         </p> */}
         <button onClick={this.addTask}>ADD</button>
+      
       </div>
     );
   }

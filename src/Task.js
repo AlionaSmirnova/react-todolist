@@ -3,11 +3,14 @@ import React from "react";
 const Task = ({ task, onChangeCheck, removeTask, index, ...props }) => {
   const ActionBtn = () => (
     <div className="actionBtn">
+        <p> {task.priority}</p>
+
       <input
         type="checkbox"
         checked={task.done}
         onChange={() => onChangeCheck(task.id, task.done)}
       ></input>
+     
       <button
         value="delete"
         className={btnDelete}
@@ -23,6 +26,7 @@ const Task = ({ task, onChangeCheck, removeTask, index, ...props }) => {
   return (
     <div className="task" className={className}>
       <p>{task.title} </p>
+      {/* <select value={value} onChange={this.changeSelect} className="select"> </select> */}
       <ActionBtn> </ActionBtn>
     </div>
   );
