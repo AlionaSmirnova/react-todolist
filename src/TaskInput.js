@@ -4,7 +4,7 @@ class TaskInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: "",
+      input: '',
     };
     this.addTask = this.addTask.bind(this);
   }
@@ -13,7 +13,8 @@ class TaskInput extends React.Component {
     const { input } = this.state;
     if (input) {
       this.props.addTask(input);
-      this.setState({ input: "" });
+      this.setState({ input: '' });
+      console.log(this.props);
     }
   }
 
@@ -21,7 +22,7 @@ class TaskInput extends React.Component {
     this.setState({
       input: event.target.value,
     });
-  };
+  }
 
   render() {
     const { input } = this.state;

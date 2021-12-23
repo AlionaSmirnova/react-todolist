@@ -20,6 +20,7 @@ class App extends React.Component {
   }
 
   removeTask(index) {
+    console.log(index);
     const DelTask = this.state.tasks;
     DelTask.splice(index, 1);
     this.setState({
@@ -27,16 +28,30 @@ class App extends React.Component {
     });
   }
   addTask(task) {
-    this.setState((state) => {
-      let { tasks } = state;
-      tasks.push({
-        id: tasks.length !== 0 ? task.length : 0,
-        title: task,
-        done: false,
-      });
-      return tasks;
+    let newTasks = this.state.tasks;
+    newTasks.push({
+      // id: tasks.length !== 0 ? task.length : 0,
+      id: newTasks.length + 1,
+      title: task,
+      done: false,
+    });
+    this.setState({
+      tasks: newTasks,
     });
   }
+  // addTask(task) {
+  //   // this.setState(state => {
+  //     let { tasks } = this.state;
+  //     tasks.push({
+  //       // id: tasks.length !== 0 ? task.length : 0,
+  //       id: task.length+1,
+  //       title: task,
+  //       done: false
+  //     });
+  //     // this.setState({ tasks: tasks})
+  //     console.log(tasks);
+  //      return {...tasks, task};
+  // };
 
   onChangeCheck(id, isDone) {
     const newTasks = this.state.tasks.map((task) => {
@@ -59,12 +74,12 @@ class App extends React.Component {
 
         {[...activeTasks, ...doneTasks].map((task, index) => (
           <Task
+            onChangeCheck={this.onChangeCheck}
+            removeTask={this.removeTask}
             task={task}
             key={task.id}
             // priority={task.priority}
-            index={this.removeTask}
-            onChangeCheck={this.onChangeCheck}
-            removeTask={this.removeTask}
+            index={index}
           />
         ))}
         <TaskInput addTask={this.addTask}> </TaskInput>
