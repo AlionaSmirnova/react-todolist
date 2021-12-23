@@ -1,6 +1,6 @@
 import React from "react";
 
-const Task = ({ task, onChangeCheck, ...props }) => {
+const Task = ({ task, onChangeCheck, removeTask, ...props }) => {
   const ActionBtn = () => (
     <div className="actionBtn">
       <input
@@ -8,7 +8,7 @@ const Task = ({ task, onChangeCheck, ...props }) => {
         checked={task.done}
         onChange={() => onChangeCheck(task.id, task.done)}
       ></input>
-      <button value="delete" className={btnDelete} onClick={delTask}>
+      <button value="delete" className={btnDelete} onClick={() => removeTask(task.index)}>
         ❌
       </button>
     </div>
