@@ -26,7 +26,6 @@ const Task = ({ task, onChangeCheck, removeTask, index, ...props }) => {
   return (
     <div className="task" className={className}>
       <p>{task.title} </p>
-      {/* <select value={value} onChange={this.changeSelect} className="select"> </select> */}
       <ActionBtn> </ActionBtn>
     </div>
   );

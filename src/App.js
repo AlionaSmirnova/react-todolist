@@ -26,13 +26,13 @@ class App extends React.Component {
       tasks: DelTask,
     });
   }
-  addTask(task) {
+  addTask(task, priority) {
     let newTasks = this.state.tasks;
     newTasks.push({
       id: newTasks.length,
       title: task,
       done: false,
-      priority: ''
+      priority: priority,
     });
     this.setState({
       tasks: newTasks,
