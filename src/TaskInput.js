@@ -4,18 +4,17 @@ class TaskInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: '',
-      value: ''
+      input: "",
+      priority: "",
     };
     this.addTask = this.addTask.bind(this);
   }
 
   addTask() {
-    const { input } = this.state;
+    const { input, priority } = this.state;
     if (input) {
-      this.props.addTask(input);
-      this.setState({ input: '' });
-      console.log(this.props);
+      this.props.addTask(input, priority);
+      this.setState({ input: "" });
     }
   }
 
@@ -23,28 +22,35 @@ class TaskInput extends React.Component {
     this.setState({
       input: event.target.value,
     });
-  }
+  };
   changeSelect = (event) => {
     this.setState({
-      value: event.target.value,
+      priority: event.target.value,
     });
-  }
+  };
 
   render() {
     const { input } = this.state;
-    const { value } = this.state;
+    const { priority } = this.state;
     return (
       <div className="task-input">
-        <input type="text" value={input} onChange={this.inputChange} placeholder="Enter the task.."></input>
-        <select value={value} onChange={this.changeSelect} className="select">
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </select> 
-         {/* <p> option: {value}
-         </p> */}
+        <input
+          type="text"
+          value={input}
+          onChange={this.inputChange}
+          placeholder="Enter the task.."
+        ></input>
+
+        <select
+          value={priority}
+          onChange={this.changeSelect}
+          className="select"
+        >
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
         <button onClick={this.addTask}>ADD</button>
-      
       </div>
     );
   }
