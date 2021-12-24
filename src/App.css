@@ -123,3 +123,35 @@ body {
 .select:hover {
   background-color: rgb(171, 130, 209, 0.4);
 }
+.modal.open{
+ height: 100vh;
+ width: 100%;
+ background-color: rgba(0,0,0,0.4);
+ border-radius: 5px;
+ position: fixed;
+ top: 0;
+ left: 0;
+ display: flex;
+ align-items: center;
+  justify-content: center;
+}
+.modalContent{
+  padding: 20px;
+  border-radius: 6px;
+  background-color: white;
+  height: 120px;
+  width: 500px;
+  /* margin: 20px 30px; */
+  
+}
+.modal.close{
+  height: 0;
+  display: none;
+}
+.modalClose{
+  text-align:right;
+  cursor: pointer;
+}
+.modalClose:hover{
+ font-size: 26px;
+}

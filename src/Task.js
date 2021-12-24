@@ -1,16 +1,26 @@
 import React from "react";
+import Modal from "./Modal";
 
-const Task = ({ task, onChangeCheck, removeTask, index, ...props }) => {
+const Task = ({
+  task,
+  onChangeCheck,
+  removeTask,
+  index,
+  openModal,
+
+  ...props
+}) => {
   const ActionBtn = () => (
     <div className="actionBtn">
-        <p> {task.priority}</p>
+      <p> {task.priority}</p>
 
       <input
         type="checkbox"
         checked={task.done}
         onChange={() => onChangeCheck(task.id, task.done)}
+        onClick={() => openModal()}
       ></input>
-     
+
       <button
         value="delete"
         className={btnDelete}
@@ -27,6 +37,7 @@ const Task = ({ task, onChangeCheck, removeTask, index, ...props }) => {
     <div className="task" className={className}>
       <p>{task.title} </p>
       <ActionBtn> </ActionBtn>
+      {/* <Modal  title={"Mark task as done?"} isOpen={this.state.modal1} />  */}
     </div>
   );
 };
