@@ -28,7 +28,6 @@ class TaskInput extends React.Component {
       priority: event.target.value,
     });
   };
-
   render() {
     const { input } = this.state;
     const { priority } = this.state;

@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import Task from "./Task";
 import TaskInput from "./TaskInput";
+import Modal from "./Modal";
 
 class App extends React.Component {
   constructor(props) {
@@ -12,12 +13,19 @@ class App extends React.Component {
         { id: 1, title: "Write some code", done: false, priority: "Medium" },
         { id: 2, title: "Make a plan", done: false, priority: "High" },
       ],
+      modal1: false,
     };
     this.onChangeCheck = this.onChangeCheck.bind(this);
     this.removeTask = this.removeTask.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.openModal = this.openModal.bind(this);
   }
 
+  openModal() {
+    this.setState({
+      modal1: true,
+    });
+  }
   removeTask(index) {
     console.log(index);
     const DelTask = this.state.tasks;
@@ -48,7 +56,6 @@ class App extends React.Component {
     this.setState({
       tasks: newTasks,
     });
-    console.log(newTasks);
   }
   render() {
     const { tasks } = this.state;
@@ -69,6 +76,7 @@ class App extends React.Component {
           />
         ))}
         <TaskInput addTask={this.addTask}> </TaskInput>
+        <Modal title={"Mark task as done?"} isOpen={this.state.modal1} />
       </div>
     );
   }
