@@ -13,19 +13,32 @@ class App extends React.Component {
         { id: 1, title: "Write some code", done: false, priority: "Medium" },
         { id: 2, title: "Make a plan", done: false, priority: "High" },
       ],
-      modal1: false,
+      isOpen: false,
     };
     this.onChangeCheck = this.onChangeCheck.bind(this);
     this.removeTask = this.removeTask.bind(this);
     this.addTask = this.addTask.bind(this);
+
+    this.closeModal = this.closeModal.bind(this);
+    this.editTask = this.editTask.bind(this);
+    this.callModal = this.callModal.bind(this);
     this.openModal = this.openModal.bind(this);
   }
 
   openModal() {
     this.setState({
-      modal1: true,
+      isOpen: true,
     });
   }
+  closeModal() {
+    this.setState({
+      isOpen: false,
+    });
+  }
+  callModal() {
+    this.openModal();
+  }
+
   removeTask(index) {
     console.log(index);
     const DelTask = this.state.tasks;
@@ -46,6 +59,19 @@ class App extends React.Component {
       tasks: newTasks,
     });
   }
+
+  editTask(id, newTitle) {
+    const editedTask = this.state.tasks.map((task) => {
+      if (id === task.id) {
+        return { ...task, title: newTitle };
+      }
+      return task;
+    });
+    this.setState({
+      tasks: editedTask,
+    });
+  }
+
   onChangeCheck(id, isDone) {
     const newTasks = this.state.tasks.map((task) => {
       if (task.id === id) {
@@ -69,6 +95,7 @@ class App extends React.Component {
           <Task
             onChangeCheck={this.onChangeCheck}
             removeTask={this.removeTask}
+            editTask={this.editTask}
             task={task}
             key={task.id}
             priority={task.priority}
@@ -76,7 +103,13 @@ class App extends React.Component {
           />
         ))}
         <TaskInput addTask={this.addTask}> </TaskInput>
-        <Modal title={"Mark task as done?"} isOpen={this.state.modal1} />
+        <Modal
+          title={"Mark task as done?"}
+          isOpen={this.state.isOpen}
+          onModalClose={this.closeModal}
+          openModal={this.openModal}
+          submitBtn={this.onChangeCheck}
+        />
       </div>
     );
   }
