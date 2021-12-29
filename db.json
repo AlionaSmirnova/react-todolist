@@ -1,0 +1,58 @@
+{
+  "tasks": [
+    {
+      "id": 0,
+      "title": "Create todo-app",
+      "done": false,
+      "priority": "Low"
+    },
+    {
+      "id": 1,
+      "title": "Write some code",
+      "done": false,
+      "priority": "Medium"
+    },
+    {
+      "id": 2,
+      "title": "Make a plan",
+      "done": false,
+      "priority": "High"
+    },
+    {
+      "id": "3f48f263-0323-4a70-a71e-8b04946a86c8",
+      "title": "123",
+      "done": false,
+      "priority": ""
+    },
+    {
+      "id": "01dfae08-948e-4a91-9d39-c3a6ccbf057c",
+      "title": "123",
+      "done": false,
+      "priority": "High"
+    },
+    {
+      "id": "be52f692-189b-4219-b093-5777dc5c6977",
+      "title": "123",
+      "done": false,
+      "priority": "Medium"
+    },
+    {
+      "id": "a6dbec00-7597-4b4f-8f42-501c9614bcc2",
+      "title": "123",
+      "done": false,
+      "priority": "High"
+    },
+    {
+      "id": "4726ac2e-5424-4366-8b5d-46d32611b701",
+      "title": "123",
+      "done": false,
+      "priority": "High"
+    },
+    {
+      "id": "1a5ad132-f0f1-4694-92f3-52301e7054f6",
+      "title": "123",
+      "done": false,
+      "priority": "High"
+    }
+  ]
+}

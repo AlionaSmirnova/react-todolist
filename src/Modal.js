@@ -3,21 +3,21 @@ import "./App.css";
 
 import DateTimePicker from "react-datetime-picker";
 
-const Modal = ({ title, isOpen, onModalClose, submitBtn, ...props}) => {
+const Modal = ({ title, isOpen, onModalClose, submitBtn, children, style }) => {
   const [value, onChange] = useState(new Date());
   return (
     <div
-      className={`modal ${() => isOpen ? "open" : "close"}`}
-      // style={{ ...props.style }}
+      className={`modal ${isOpen ? "open" : "close"}`}
+      style={{ ...style }}
     >
       <div className="modalContent">
-        <div className="modalClose" onClick={() => this.onModalClose()}>
+        <div className="modalClose" onClick={onModalClose}>
           ❌
         </div>
-        <h3>{props.title}</h3>
+        <h3>{title}</h3>
         <hr />
-        {props.children}
-        <button className="btn" onClick={() => this.submitBtn()}>
+        {children}
+        <button className="btn" onClick={submitBtn}>
           Submit
         </button>
 
