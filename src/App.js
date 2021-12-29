@@ -1,90 +1,148 @@
 import React from "react";
+import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 import "./App.css";
 import Task from "./Task";
 import TaskInput from "./TaskInput";
 import Modal from "./Modal";
+import { Loading } from './Loading'
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tasks: [
-        { id: 0, title: "Create todo-app", done: false, priority: "Low" },
-        { id: 1, title: "Write some code", done: false, priority: "Medium" },
-        { id: 2, title: "Make a plan", done: false, priority: "High" },
-      ],
-      isOpen: false,
-      currentTask: { id: 0, title: "", done: false, priority: "" },
-    };
-    this.onChangeCheck = this.onChangeCheck.bind(this);
-    this.removeTask = this.removeTask.bind(this);
-    this.addTask = this.addTask.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.editTask = this.editTask.bind(this);
-    this.openModal = this.openModal.bind(this);
+  state = {
+    tasks: {
+      loading: false,
+      data: null,
+      error: null,
+    },
+    isOpen: false,
+    currentTask: { id: 0, title: "", done: false, priority: "" },
   }
 
-  openModal(task) {
-    console.log('fhfhfh');
+  async componentDidMount() {
+    this.fetchToDoList()
+  }
+
+  fetchToDoList = async () => {
+    try {
+      this.setState({
+        tasks: {
+          ...this.state.tasks,
+          loading: true
+        }
+      })
+
+      const { data: tasks } = await axios.get('/tasks')
+
+      this.setState({
+        tasks: {
+          loading: false,
+          data: tasks,
+          error: null
+        }
+      })
+    } catch (error) {
+      this.setState({
+        tasks: {
+          loading: false,
+          data: null,
+          error
+        }
+      })
+    }
+  }
+
+  openModal = (task) => {
     this.setState({
       isOpen: true,
       currentTask: task,
     });
   }
-  closeModal() {
+
+  closeModal = () => {
     this.setState({
       isOpen: false,
     });
   }
 
-  removeTask(index) {
-    console.log(index);
-    const DelTask = this.state.tasks;
-    DelTask.splice(index, 1);
-    this.setState({
-      tasks: DelTask,
-    });
+  removeTask = (index) => {
+    const tasks = [...this.state.tasks];
+    tasks.splice(index, 1);
+
+    this.setState({ tasks });
   }
-  addTask(task, priority) {
-    let newTasks = this.state.tasks;
-    newTasks.push({
-      id: newTasks.length,
+
+  addTask = async (task, priority) => {
+    const data = {
+      id: uuidv4(),
       title: task,
       done: false,
       priority: priority,
-    });
+    }
+
+    try {
+      this.setState({
+        tasks: {
+          ...this.state.tasks,
+          loading: true
+        }
+      })
+
+      await axios.post('/tasks', data)
+
+      this.setState({
+        tasks: {
+          loading: false,
+          data: [...this.state.tasks.data, data],
+          error: null
+        }
+      });
+    } catch (error) {
+      this.setState({
+        tasks: {
+          loading: false,
+          data: null,
+          error
+        }
+      })
+    }
+
+    this.fetchToDoList()
+  }
+
+  editTask = (id, newTitle) => {
     this.setState({
-      tasks: newTasks,
+      tasks: this.state.tasks.map((task) => {
+        if (id === task.id) {
+          return { ...task, title: newTitle };
+        }
+        return task;
+      }),
     });
   }
 
-  editTask(id, newTitle) {
-    const editedTask = this.state.tasks.map((task) => {
-      if (id === task.id) {
-        return { ...task, title: newTitle };
-      }
-      return task;
-    });
-    this.setState({
-      tasks: editedTask,
-    });
-  }
-
-  onChangeCheck() {
+  handleChangeCheck = () => {
     const { currentTask } = this.state;
-    const newTasks = this.state.tasks.map((task) => {
+    const tasks = this.state.tasks.map((task) => {
       if (task.id === currentTask.id) {
         return { ...task, done: !currentTask.done };
       }
       return task;
     });
     this.setState({
-      tasks: newTasks,
+      tasks,
       isOpen: false,
     });
   }
+
   render() {
-    const { tasks } = this.state;
+    const { loading, data } = this.state.tasks;
+
+    if (loading) {
+      return <Loading />
+    }
+
+    const tasks = data ? data : []
+
     const activeTasks = tasks.filter((task) => !task.done);
     const doneTasks = tasks.filter((task) => task.done);
     return (
@@ -94,7 +152,7 @@ class App extends React.Component {
         {[...activeTasks, ...doneTasks].map((task, index) => {
           return (
             <Task
-              onChangeCheck={this.onChangeCheck}
+              onChangeCheck={this.handleChangeCheck}
               removeTask={this.removeTask}
               editTask={this.editTask}
               task={task}
@@ -110,11 +168,12 @@ class App extends React.Component {
           title={"Mark task as done?"}
           isOpen={this.state.isOpen}
           onModalClose={this.closeModal}
-          submitBtn={this.onChangeCheck}
-        
+          submitBtn={this.handleChangeCheck}
+
         />
       </div>
     );
   }
 }
-export default App;
+
+export default App

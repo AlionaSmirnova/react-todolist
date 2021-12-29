@@ -1,16 +1,12 @@
 import React from "react";
 
 class TaskInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      input: "",
-      priority: "",
-    };
-    this.addTask = this.addTask.bind(this);
+  state = {
+    input: "",
+    priority: "High",
   }
 
-  addTask() {
+  addTask = () => {
     const { input, priority } = this.state;
     if (input) {
       this.props.addTask(input, priority);
@@ -23,12 +19,14 @@ class TaskInput extends React.Component {
       input: event.target.value,
     });
   };
+
   changeSelect = (event) => {
     this.setState({
       priority: event.target.value,
     });
   };
-  render() {
+
+  render = () => {
     const { input } = this.state;
     const { priority } = this.state;
     return (
