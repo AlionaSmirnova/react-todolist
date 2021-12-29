@@ -7,7 +7,6 @@ const Task = ({
   removeTask,
   index,
   openModal,
-  // callModal,
 
   ...props
 }) => {
@@ -18,13 +17,13 @@ const Task = ({
       <input
         type="checkbox"
         checked={task.done}
-        onChange={() => openModal()}
+        onChange={() => openModal(task)}
       ></input>
 
       <button type="button" className={hiddenEdit}>
-      {/* onClick={editTask()} */}
-      <img src="https://img.icons8.com/nolan/20/edit--v1.png" alt="pen"/>
-            </button>
+        {/* onClick={editTask()} */}
+        <img src="https://img.icons8.com/nolan/20/edit--v1.png" alt="pen" />
+      </button>
       <button
         value="delete"
         className={btnDelete}
@@ -41,7 +40,6 @@ const Task = ({
     <div className="task" className={className}>
       <p>{task.title} </p>
       <ActionBtn> </ActionBtn>
-      {/* <Modal  title={"Mark task as done?"} isOpen={this.state.isOpen} />  */}
     </div>
   );
 };
