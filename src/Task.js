@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useCallback } from "react";
+import clsx from 'clsx'
 import Modal from "./Modal";
 
 const Task = ({
   task,
-  onChangeCheck,
+  // onChangeCheck,
   removeTask,
   index,
   openModal,
-
-  ...props
 }) => {
+  const handleRemove = useCallback(() => removeTask(index), [removeTask, index])
   const ActionBtn = () => (
     <div className="actionBtn">
       <p> {task.priority}</p>
@@ -27,17 +27,16 @@ const Task = ({
       <button
         value="delete"
         className={btnDelete}
-        onClick={() => removeTask(index)}
+        onClick={handleRemove}
       >
         ❌
       </button>
     </div>
   );
   const hiddenEdit = task.done ? "btnHide" : "btnShow";
-  const className = "task " + (task.done ? "task-done" : "");
   const btnDelete = task.done ? "btnShow" : "btnHide";
   return (
-    <div className="task" className={className}>
+    <div className="task" className={clsx('task', task.done && "task-done")}>
       <p>{task.title} </p>
       <ActionBtn> </ActionBtn>
     </div>
