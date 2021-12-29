@@ -13,19 +13,30 @@ class App extends React.Component {
         { id: 1, title: "Write some code", done: false, priority: "Medium" },
         { id: 2, title: "Make a plan", done: false, priority: "High" },
       ],
-      modal1: false,
+      isOpen: false,
+      currentTask: { id: 0, title: "", done: false, priority: "" },
     };
     this.onChangeCheck = this.onChangeCheck.bind(this);
     this.removeTask = this.removeTask.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.editTask = this.editTask.bind(this);
     this.openModal = this.openModal.bind(this);
   }
 
-  openModal() {
+  openModal(task) {
+    console.log('fhfhfh');
     this.setState({
-      modal1: true,
+      isOpen: true,
+      currentTask: task,
     });
   }
+  closeModal() {
+    this.setState({
+      isOpen: false,
+    });
+  }
+
   removeTask(index) {
     console.log(index);
     const DelTask = this.state.tasks;
@@ -46,15 +57,30 @@ class App extends React.Component {
       tasks: newTasks,
     });
   }
-  onChangeCheck(id, isDone) {
+
+  editTask(id, newTitle) {
+    const editedTask = this.state.tasks.map((task) => {
+      if (id === task.id) {
+        return { ...task, title: newTitle };
+      }
+      return task;
+    });
+    this.setState({
+      tasks: editedTask,
+    });
+  }
+
+  onChangeCheck() {
+    const { currentTask } = this.state;
     const newTasks = this.state.tasks.map((task) => {
-      if (task.id === id) {
-        return { ...task, done: !isDone };
+      if (task.id === currentTask.id) {
+        return { ...task, done: !currentTask.done };
       }
       return task;
     });
     this.setState({
       tasks: newTasks,
+      isOpen: false,
     });
   }
   render() {
@@ -65,18 +91,28 @@ class App extends React.Component {
       <div className="App">
         <h1 className="top">Active tasks: {activeTasks.length} </h1>
 
-        {[...activeTasks, ...doneTasks].map((task, index) => (
-          <Task
-            onChangeCheck={this.onChangeCheck}
-            removeTask={this.removeTask}
-            task={task}
-            key={task.id}
-            priority={task.priority}
-            index={index}
-          />
-        ))}
+        {[...activeTasks, ...doneTasks].map((task, index) => {
+          return (
+            <Task
+              onChangeCheck={this.onChangeCheck}
+              removeTask={this.removeTask}
+              editTask={this.editTask}
+              task={task}
+              key={task.id}
+              priority={task.priority}
+              index={index}
+              openModal={this.openModal}
+            />
+          );
+        })}
         <TaskInput addTask={this.addTask}> </TaskInput>
-        <Modal title={"Mark task as done?"} isOpen={this.state.modal1} />
+        <Modal
+          title={"Mark task as done?"}
+          isOpen={this.state.isOpen}
+          onModalClose={this.closeModal}
+          submitBtn={this.onChangeCheck}
+        
+        />
       </div>
     );
   }
